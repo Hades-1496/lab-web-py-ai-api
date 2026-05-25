@@ -41,7 +41,10 @@ lab-web-py-ai-api/
 │   ├── notas.py
 │   └── ia.py
 ├── auth/
-│   └── jwt.py
+│   ├── jwt.py
+│   └── depend.py
+├── errors/
+│   └── errorHandler.py
 └── .env
 ```
 
@@ -83,3 +86,16 @@ Los usuarios pueden crear notas de texto. La API expone endpoints para que un ag
 - Logging estructurado en JSON para todas las peticiones a `/api/`
 - `GET /api/context` incluye el número de notas del usuario autenticado
 - Endpoint `POST /api/resumir/{nota_id}` que devuelve una simulación de resumen IA
+
+---
+
+## Complicaciones y Soluciones
+
+### Error con `passlib` y `bcrypt` (ValueError: password cannot be longer than 72 bytes)
+Al intentar registrar un usuario, si recibes un error 500 relacionado con un límite de 72 bytes al hacer el hash de la contraseña, se debe a un bug de incompatibilidad conocida entre la librería `passlib` y la versión `5.0.0` (o superior) de `bcrypt`.
+
+**Solución:** 
+Fuerza la instalación de una versión anterior y compatible de `bcrypt` (4.x) ejecutando en tu terminal:
+```bash
+pip install "bcrypt<5.0.0"
+```
